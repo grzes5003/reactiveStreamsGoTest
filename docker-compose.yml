@@ -1,0 +1,43 @@
+version: '3'
+
+services:
+  app1:
+    build: .
+    environment:
+      - MACHINE_NUM=1
+      - USER_ADDR=tcp://10.5.0.2:7878
+    ports:
+    - 7871:7878
+    networks:
+      vpcbr:
+        ipv4_address: 10.5.0.2
+
+  app2:
+    build: .
+    environment:
+      - MACHINE_NUM=2
+      - USER_ADDR=tcp://10.5.0.3:7878
+    ports:
+      - 7872:7878
+    networks:
+      vpcbr:
+        ipv4_address: 10.5.0.3
+
+  app3:
+    build: .
+    environment:
+      - MACHINE_NUM=3
+      - USER_ADDR=tcp://10.5.0.4:7878
+    ports:
+      - 7873:7878
+    networks:
+      vpcbr:
+        ipv4_address: 10.5.0.4
+
+networks:
+  vpcbr:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.5.0.0/16
+        # - gateway: 10.5.0.1
